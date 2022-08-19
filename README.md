@@ -1,9 +1,9 @@
-# Ghost Static Site Generator
+# Ghost Static Website Generator
 
 Generate static HTML files for custom ghost hosting and publish them on AWS S3 as static website.
 To host the static blog site under a path `/blog` (`https://yourdomain.com/blog`), the ghost needs to be hosted with the same path like `https://content.yourdomain.com/blog`.
 
-If your blog is hosted under `https://content.yourdomain.com` and you want to host the static site under `https://yourdomain.com/blog`, this is not possible. Same applies for the other way around.
+If your blog is hosted under `https://content.yourdomain.com` and you want to host the static website under `https://yourdomain.com/blog`, this is not possible. Same applies for the other way around.
 
 You can also replace certain text from the generated static files by passing the following arguments `custom_replace_keys` and `custom_replace_values`. For more details, refer Inputs and Example usage section. It doesn't support the multiline replacement as of now.
 
