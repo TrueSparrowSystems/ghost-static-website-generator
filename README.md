@@ -51,7 +51,7 @@ Additionally it also provides the functionality to upload the static HTML files 
 
 ```yaml
 name: Publish blog posts
-uses: bala007/ghost-static-site-generator@main
+uses: PLG-Works/ghost-static-site-generator@main
 with:
   ghost_hosted_url: "https://content.yourdomain.com/blog"
   ghost_static_host_url: "https://yourdomain.com/blog"
