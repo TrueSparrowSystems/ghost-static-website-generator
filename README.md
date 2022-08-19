@@ -1,13 +1,13 @@
 # Ghost Static Site Generator
 
-Generate static HTML files for the custom ghost hosting and publishing them on S3 static website bucket.
-To host the static blog site under a path `/blog` (`https://yourdomain.com/blog`), then the ghost needs to be hosted with the same path like `https://content.yourdomain.com/blog`.
+Generate static HTML files for custom ghost hosting and publish them on AWS S3 as static website.
+To host the static blog site under a path `/blog` (`https://yourdomain.com/blog`), the ghost needs to be hosted with the same path like `https://content.yourdomain.com/blog`.
 
 If your blog is hosted under `https://content.yourdomain.com` and you want to host the static site under `https://yourdomain.com/blog`, this is not possible. Same applies for the other way around.
 
 You can also replace certain text from the generated static files by passing the following arguments `custom_replace_keys` and `custom_replace_values`. For more details, refer Inputs and Example usage section. It doesn't support the multiline replacement as of now.
 
-Additionally it also provides the functionality to upload the static HTML files to S3 bucket. To access these files publically, make it as a public bucket and enable static website hosting.
+Additionally, it also provides the functionality to upload the static HTML files to S3 bucket. To access these files publicly, make it as a public bucket and enable static website hosting.
 
 ## Inputs
 
@@ -70,5 +70,5 @@ docker build -t ghost-ssg .
 docker run -it --env-file .env.sample ghost-ssg
 ```
 
-> Make appropriate chnages to the `.env.sample` file.
+> Make appropriate changes to the `.env.sample` file.
 > To Persist the generated HTML files in local (host system) directory, use bind mount option with `docker run` command, For example: `-v /path/to/local/dir:/src/content`
