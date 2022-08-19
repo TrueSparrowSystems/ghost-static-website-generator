@@ -51,7 +51,7 @@ Additionally, it also provides the functionality to upload the static HTML files
 
 ```yaml
 name: Generate Static HTML files
-uses: PLG-Works/ghost-static-site-generator@v1
+uses: PLG-Works/ghost-static-website-generator@v1
 with:
   ghost_hosted_url: "https://content.yourdomain.com/blog"
   ghost_static_host_url: "https://yourdomain.com/blog"
