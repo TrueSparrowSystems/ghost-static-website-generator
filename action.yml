@@ -1,4 +1,4 @@
-name: "Ghost Static Site Generator"
+name: "Ghost Static Website Generator"
 description: "Generate static HTML files for the custom ghost hosting and publishing them on S3 static website bucket"
 branding:
   icon: code
