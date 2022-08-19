@@ -1,0 +1,1 @@
+# ghost-static-site-generator
