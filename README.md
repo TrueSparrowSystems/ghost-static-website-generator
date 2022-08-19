@@ -66,8 +66,8 @@ with:
 ### _Locally build and run with docker_
 
 ```bash
-docker build -t ghost-ssg .
-docker run -it --env-file .env.sample ghost-ssg
+docker build -t ghost-swg .
+docker run -it --env-file .env.sample ghost-swg
 ```
 
 > Make appropriate changes to the `.env.sample` file.
