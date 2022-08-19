@@ -1,0 +1,43 @@
+name: "Ghost Static Site Generator"
+description: "Generate static HTML files for the custom ghost hosting and publishing them on S3 static website bucket"
+inputs:
+  ghost_hosted_url:
+    description: "Ghost hosted URL endpoint"
+    required: true
+  ghost_static_host_url:
+    description: "URL endpoint where static files needs to be hosted"
+    required: true
+  custom_replace_keys:
+    description: "Comma separated list of items that needs to be replaced from the items in custom_replace_values at the same index"
+    required: false
+  custom_replace_values:
+    description: "Comma separated associated values for the item in custom_replace_keys"
+    required: false
+  root_index_jsonld:
+    description: "ld+json data for the root index file"
+    required: false
+  s3_bucket_name:
+    description: "S3 bucket name to upload static HTML files"
+    required: false
+  aws_access_key_id:
+    description: "AWS access key Id"
+    required: false
+  aws_secret_access_key:
+    description: "AWS secret access key"
+    required: false
+  aws_region:
+    description: "AWS region"
+    required: false
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.ghost_hosted_url }}
+    - ${{ inputs.ghost_static_host_url }}
+    - ${{ inputs.custom_replace_keys }}
+    - ${{ inputs.custom_replace_values }}
+    - ${{ inputs.root_index_jsonld }}
+    - ${{ inputs.s3_bucket_name }}
+    - ${{ inputs.aws_access_key_id }}
+    - ${{ inputs.aws_secret_access_key }}
+    - ${{ inputs.aws_region }}
