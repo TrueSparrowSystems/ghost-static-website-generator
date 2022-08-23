@@ -17,7 +17,10 @@ inputs:
     description: "Comma separated associated values for the item in custom_replace_keys"
     required: false
   root_index_jsonld:
-    description: "ld+json data for the root index file"
+    description: "Replace ld+json data in the root index file"
+    required: false
+  breadcrumb_root_index_jsonld:
+    description: "Add breadcrumb ld+json data to the root index file"
     required: false
   s3_bucket_name:
     description: "S3 bucket name to upload static HTML files"
@@ -40,6 +43,7 @@ runs:
     - ${{ inputs.custom_replace_keys }}
     - ${{ inputs.custom_replace_values }}
     - ${{ inputs.root_index_jsonld }}
+    - ${{ inputs.breadcrumb_root_index_jsonld }}
     - ${{ inputs.s3_bucket_name }}
     - ${{ inputs.aws_access_key_id }}
     - ${{ inputs.aws_secret_access_key }}
