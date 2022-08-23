@@ -31,6 +31,11 @@ Additionally, it also provides the functionality to upload the static HTML files
 
 **Optional** ld+json data for the root index file.
 
+
+## `breadcrumb_root_index_jsonld`
+
+**Optional** Breadcrumb ld+json data for the root index file.
+
 ## `s3_bucket_name`
 
 **Optional** S3 bucket name to upload static HTML files.
