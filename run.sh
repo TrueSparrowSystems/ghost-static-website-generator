@@ -8,6 +8,7 @@
 #   - CUSTOM_REPLACE_KEYS (comma separated list of items that needs to be replaced from the items in CUSTOM_REPLACE_VALUES at the same index)
 #   - CUSTOM_REPLACE_VALUES (associated values for the item in CUSTOM_REPLACE_KEYS)
 #   - ROOT_INDEX_JSONLD (LD+JSON data that needs to be replaced in root index.html page)
+#   - BREADCRUMB_ROOT_INDEX_JSONLD (Breadcrumb LD+JSON data that needs to be added in root index.html page)
 #   - S3_BUCKET_NAME (S3 bucket name to upload static HTML files)
 #   - AWS_ACCESS_KEY_ID
 #   - AWS_SECRET_ACCESS_KEY
@@ -116,6 +117,18 @@ if [[ ! -z "${ROOT_INDEX_JSONLD}" ]]; then
     mv -f ${blog_dir}/_index.html ${blog_dir}/index.html
 
     echo "***** ld+json data replaced in index.html *****"
+fi
+
+
+if [[ ! -z "${BREADCRUMB_ROOT_INDEX_JSONLD}" ]]; then
+    echo " "
+    echo "***** Adding Breadcrumb ld+json data in index.html *****"
+
+    sed "/<script type=\"application\/ld+json\">/i\
+    <script type=\"application/ld+json\">${BREADCRUMB_ROOT_INDEX_JSONLD}</script>" ${blog_dir}/index.html >${blog_dir}/_index.html
+    mv -f ${blog_dir}/_index.html ${blog_dir}/index.html
+
+    echo "***** Breadcrumb ld+json data added in index.html *****"
 fi
 
 if [[ ! -z ${S3_BUCKET_NAME} ]]; then
