@@ -35,10 +35,15 @@ if [[ "${GHOST_HOSTED_BLOG_PATH}" != "${GHOST_STATIC_BLOG_PATH}" ]]; then
     exit 1
 fi
 
+GHOST_HOSTED_URL_WITHOUT_PROTOCOL=$(echo -e ${GHOST_HOSTED_URL} | sed -e 's/^https://')
+GHOST_STATIC_HOST_URL_WITHOUT_PROTOCOL=$(echo -e ${GHOST_STATIC_HOST_URL} | sed -e 's/^https://')
+
 echo "###########################################################"
 echo "GHOST_HOSTED_URL              : ${GHOST_HOSTED_URL}"
+echo "GHOST_HOSTED_URL_WITHOUT_PROTOCOL              : ${GHOST_HOSTED_URL_WITHOUT_PROTOCOL}"
 echo "GHOST_HOSTED_BLOG_PATH        : ${GHOST_HOSTED_BLOG_PATH}"
 echo "GHOST_STATIC_HOST_URL         : ${GHOST_STATIC_HOST_URL}"
+echo "GHOST_STATIC_HOST_URL_WITHOUT_PROTOCOL         : ${GHOST_STATIC_HOST_URL_WITHOUT_PROTOCOL}"
 echo "GHOST_STATIC_BLOG_DOMAIN      : ${GHOST_STATIC_BLOG_DOMAIN}"
 echo "GHOST_STATIC_HOST             : ${GHOST_STATIC_HOST}"
 echo "GHOST_STATIC_BLOG_PATH        : ${GHOST_STATIC_BLOG_PATH}"
@@ -71,6 +76,7 @@ echo " "
 echo "***** Replace text with custom text started *****"
 declare -A REPLACE_CONTENT=(
     ["${GHOST_HOSTED_URL}"]="${GHOST_STATIC_HOST_URL}"
+    ["${GHOST_HOSTED_URL_WITHOUT_PROTOCOL}"]="${GHOST_STATIC_HOST_URL_WITHOUT_PROTOCOL}"
     ["\"url\": \"${GHOST_STATIC_HOST_URL}/\""]="\"url\": \"${GHOST_STATIC_HOST}/\""
     ["\"@type\": \"WebSite\""]="\"@type\": \"WebPage\""
 )
