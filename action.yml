@@ -34,6 +34,13 @@ inputs:
   aws_region:
     description: "AWS region"
     required: false
+  aws_amplify_app_id:
+    description: "Amplify App id"
+    required: false
+  aws_amplify_branch_name:
+    description: "Amplify Branch name"
+    required: false
+
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -48,3 +55,5 @@ runs:
     - ${{ inputs.aws_access_key_id }}
     - ${{ inputs.aws_secret_access_key }}
     - ${{ inputs.aws_region }}
+    - ${{ inputs.aws_amplify_app_id }}
+    - ${{ inputs.aws_amplify_branch_name }}

@@ -13,6 +13,8 @@
 #   - AWS_ACCESS_KEY_ID
 #   - AWS_SECRET_ACCESS_KEY
 #   - AWS_DEFAULT_REGION
+#   - AWS_AMPLIFY_APP_ID
+#   - AWS_AMPLIFY_BRANCH_NAME
 
 GHOST_HOSTED_DOMAIN_WITH_PATH=$(echo ${GHOST_HOSTED_URL} | cut -d '/' -f 3-)
 GHOST_HOSTED_BLOG_PATH=$(echo ${GHOST_HOSTED_URL} | cut -d '/' -f 4-)
@@ -148,9 +150,62 @@ if [[ ! -z ${S3_BUCKET_NAME} ]]; then
     aws s3 sync ${blog_dir}/public ${s3_blog_path}/public --acl public-read --cache-control "public, max-age=604800, must-revalidate" --delete
     aws s3 sync ${blog_dir}/assets ${s3_blog_path}/assets --acl public-read --cache-control "public, max-age=604800, must-revalidate" --delete
     echo "***** S3 upload complete *****"
+elif [[ ! -z ${AWS_AMPLIFY_APP_ID} ]]; then
+    echo ""
+    echo "***** Started generating zip for static blog *****"
+    cd ${GHOST_STATIC_CONTENT_DIR}
+    zip -r ${GHOST_STATIC_BLOG_PATH}.zip ${GHOST_STATIC_BLOG_PATH}
+    echo "***** Started create deployment for Amplify *****"
+    job=`aws amplify create-deployment --app-id ${AWS_AMPLIFY_APP_ID} --branch-name ${AWS_AMPLIFY_BRANCH_NAME} --output json`
+    # Extract values and store in variables
+    jobId=$(echo "$job" | jq -r '.jobId')
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Unable to fetch jobId"
+        exit 1
+    fi  
+    zipUploadUrl=$(echo "$job" | jq -r '.zipUploadUrl')
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Unable to fetch zipUploadUrl"
+        exit 1
+    fi  
+    echo "jobId ===>>>>> ${jobId}"
+    echo "zipUploadUrl ===>>>>> ${zipUploadUrl}"
+    curl "${zipUploadUrl}" --upload-file ${GHOST_STATIC_BLOG_PATH}.zip
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Unable to upload zip"
+        exit 1
+    fi    
+    aws amplify start-deployment --app-id ${AWS_AMPLIFY_APP_ID} --branch-name ${AWS_AMPLIFY_BRANCH_NAME} --job-id ${jobId}
+    if [[ $? -ne 0 ]]; then
+        echo "Error: Unable to start deployment"
+        exit 1
+    fi
+    while true; do
+        status=`aws amplify get-job --app-id ${AWS_AMPLIFY_APP_ID} --branch-name ${AWS_AMPLIFY_BRANCH_NAME} --job-id ${jobId} | jq -r '.job.summary.status'`
+        if [[ $? -ne 0 ]]; then
+            echo "Error: Unable to fetch status"
+            exit 1
+        fi
+        # Check if the status is either "SUCCEED" or "FAILED"
+        if [ "${status}" = "SUCCEED" ]; then
+            echo "Job Status =>>>>>> ${status}"
+            break
+        elif [ "${status}" = "FAILED" ]; then
+            echo "Job Status =>>>>>> ${status}"
+            break
+        elif [ "${status}" = "CANCELLED" ]; then
+            echo "Job Status =>>>>>> ${status}"
+            break
+        else
+            echo "Job Status =>>>>>> ${status}"
+        fi
+        # Wait for a while before checking again
+        sleep 5  # Adjust the sleep duration as needed
+    done
 else
     echo " "
     echo "If you want to upload the static site files to S3, provide following ENV variables: S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION"
+    echo "Or if you want to upload the static site files to Amplify, provide following ENV variables: AWS_AMPLIFY_APP_ID, AWS_AMPLIFY_BRANCH_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION"
 fi
 
 echo " "

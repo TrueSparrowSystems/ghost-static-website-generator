@@ -7,7 +7,29 @@ If your blog is hosted under `https://content.yourdomain.com` and you want to ho
 
 You can also replace certain text from the generated static files by passing the following arguments `custom_replace_keys` and `custom_replace_values`. For more details, refer Inputs and Example usage section. It doesn't support the multiline replacement as of now.
 
-Additionally, it also provides the functionality to upload the static HTML files to S3 bucket. To access these files publicly, make it as a public bucket and enable static website hosting.
+Optionally, you can either host the static files on AWS S3 or on AWS Amplify.
+
+To host Static Blog on AWS S3, provide the following input parameters:
+
+- `s3_bucket_name` (Make the bucket publicly accessible and enable static web hosting)
+
+- `aws_access_key_id`
+
+- `aws_secret_access_key`
+
+- `aws_region`
+
+To host Static Blog on already existing AWS Amplify application, provide the following input parameters:
+
+- `aws_amplify_app_id`
+
+- `aws_amplify_branch_name`
+
+- `aws_access_key_id`
+
+- `aws_secret_access_key`
+
+- `aws_region`
 
 ## Inputs
 
@@ -51,6 +73,14 @@ Additionally, it also provides the functionality to upload the static HTML files
 ## `aws_region`
 
 **Optional** AWS region.
+
+## `aws_amplify_app_id`
+
+**Optional** Amplify App id.
+
+## `aws_amplify_branch_name`
+
+**Optional** Amplify branch name.
 
 ## Example usage
 
